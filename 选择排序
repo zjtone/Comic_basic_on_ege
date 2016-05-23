@@ -1,0 +1,62 @@
+//选择排序
+
+#include<iostream>
+#include<ctime>
+#include<cstdlib>
+#include<graphics.h>
+using namespace std;
+int main()
+{
+	int a[10],temp;
+	double x,y;
+	int i,j,n;
+	srand(time(0));
+	for(i=0;i<10;i++)a[i]=rand()%10+1;
+	initgraph(640,480);
+	setfillcolor(LIGHTBLUE);
+	for(i=0;i<10;i++)
+		bar(20+i*60,a[i]*10,60+i*60,150);
+	getch();
+	while(1)      //也可不用此循环，若使用必须加break来跳出循环，推荐不使用 
+	{
+		for(i=0;i<10;i++)
+			for(j=i+1;j<10;j++)
+			{
+				if(a[i]>a[j])
+				{
+					y=i;x=j;
+					temp=a[i];a[i]=a[j];a[j]=temp;
+					for(;is_run();delay_fps(60))
+					{
+						cleardevice();
+						setfillcolor(GREEN);
+
+						//若用(y!=j)及(x!=i)此处无限循环，原因是double的误差
+						//修改为比较大小后误差不再出现
+						if(y<=j)bar(20+y*60,a[j]*10,60+y*60,150);
+						else bar(20+j*60,a[j]*10,60+j*60,150);
+						if(x>=i)bar(20+x*60,a[i]*10,60+x*60,150);
+						else bar(20+i*60,a[i]*10,60+i*60,150);
+						x=x-0.1;
+						y=y+0.1;
+						setfillcolor(LIGHTBLUE);
+						for(n=0;n<i;n++)
+							bar(20+n*60,a[n]*10,60+n*60,150);
+						if(j-i!=1)
+							for(n=i+1;n<j;n++)
+								bar(20+n*60,a[n]*10,60+n*60,150);
+						for(n=j+1;n<10;n++)
+							bar(20+n*60,a[n]*10,60+n*60,150);
+						if(y>j&&x<i)break;
+					}
+				}
+			}
+			break;   //此处的break必加，否则无法跳出该循环
+	}
+	cleardevice();  //清空前面的图形，重新绘制所需要的图形以作为结束
+	for(i=0;i<10;i++)
+		bar(20+i*60,a[i]*10,60+i*60,150);
+	getch(); 
+	closegraph();
+	return 0;
+}
